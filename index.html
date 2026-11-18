@@ -29,6 +29,7 @@
                 </select>
             </div>
             <div class="botones">
+                <button id="btn-cat" class="btn-import">Categorías</button>
                 <button id="imp" class="btn-import">Importar desde API</button>
                 <button id="nva" class="btn-create">Crear tarea</button>
                 <button id="mar" class="btn-import">Marcar todas</button>
@@ -67,10 +68,31 @@
                 <button type="button" class="cerrar" onclick="this.closest('dialog').close()">×</button>
                 <p class="modal-subtitulo">Importación desde API</p>
                 <h2>Importar tareas</h2>
+                <label>Categoría para tareas importadas</label>
+                <select id="cat-imp"></select>
                 <ul id="api-lst" style="max-height: 250px; overflow-y: auto; list-style: none; padding: 0; margin-bottom: 20px;"></ul>
                 <div class="acciones-modal">
                     <button type="button" class="btn-cancel" onclick="this.closest('dialog').close()">Cerrar</button>
                     <button type="button" id="cnf" class="btn-guardar">Importar seleccionadas</button>
+                </div>
+            </div>
+        </dialog>
+        <dialog id="mdl-c">
+            <div class="modal-contenido">
+                <button type="button" class="cerrar" onclick="this.closest('dialog').close()">X</button>
+                <p class="modal-subtitulo">ADMINISTRACIÓN</p>
+                <h2>Categorías</h2>
+                <form id="frm-cat">
+                    <label>Nombre de la categoría</label>
+                    <div class="fila">
+                        <input type="text" id="cat-nom" class="input-grande" placeholder="Escriba el nombre de la categoría" required>
+                        <input type="color" id="cat-col" value="#0d4b36" title="Color de la categoría" style="width: 55px; height: 50px; border: 1px solid #ccc; border-radius: 12 px; cursor: pointer; padding: 4px; background: white;">
+                        <button type="submit" id="btn-guardar-cat" class="btn-guardar">Agregar</button>
+                    </div>
+                </form>
+                <ul id="cat-lst" style="max-height: 220px; overflow-y:auto; list-style: none; padding: 0;"></ul>
+                <div class="acciones-modal">
+                    <button type="button" class="btn-cancel" onclick="this.closest('dialog').close()">Cerrar</button>
                 </div>
             </div>
         </dialog>
@@ -83,7 +105,8 @@
             </div>
             <div class="titulo"></div>
             <div class="categoria info">
-                <span></span>
+                <span class="cat-dot"></span>
+                <b class="cat-txt" style="color: #333; font-weight: 600;"></b>
                 <strong class="fecha-txt" style="font-weight: normal; margin-right: 10px;"></strong>
                 <small></small>
             </div>
