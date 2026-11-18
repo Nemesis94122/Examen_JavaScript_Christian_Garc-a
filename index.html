@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -51,6 +51,8 @@
                     <input type="text" id="ttl" class="input-grande" placeholder="Ej. Redactar informe de operaciones" required>
                     <label>Fecha de Registro</label>
                     <input type="date" id="fch" required>
+                    <label>Categoría</label>
+                    <select id="cat"></select>
                     <div class="check-fin">
                         <input type="checkbox" id="cmp">
                         <label for="cmp" style="margin-bottom: 0; cursor: pointer;">Marca esta tarea como finalizada</label>
@@ -68,7 +70,7 @@
                 <button type="button" class="cerrar" onclick="this.closest('dialog').close()">×</button>
                 <p class="modal-subtitulo">Importación desde API</p>
                 <h2>Importar tareas</h2>
-                <label>Categoría para tareas importadas</label>
+                <label>Asignar categoría a las tareas importadas</label>
                 <select id="cat-imp"></select>
                 <ul id="api-lst" style="max-height: 250px; overflow-y: auto; list-style: none; padding: 0; margin-bottom: 20px;"></ul>
                 <div class="acciones-modal">
@@ -77,20 +79,21 @@
                 </div>
             </div>
         </dialog>
+
         <dialog id="mdl-c">
             <div class="modal-contenido">
-                <button type="button" class="cerrar" onclick="this.closest('dialog').close()">X</button>
+                <button type="button" class="cerrar" onclick="this.closest('dialog').close()">×</button>
                 <p class="modal-subtitulo">ADMINISTRACIÓN</p>
                 <h2>Categorías</h2>
                 <form id="frm-cat">
                     <label>Nombre de la categoría</label>
-                    <div class="fila">
-                        <input type="text" id="cat-nom" class="input-grande" placeholder="Escriba el nombre de la categoría" required>
-                        <input type="color" id="cat-col" value="#0d4b36" title="Color de la categoría" style="width: 55px; height: 50px; border: 1px solid #ccc; border-radius: 12 px; cursor: pointer; padding: 4px; background: white;">
+                    <div class="fila" style="align-items: center; margin-bottom: 20px;">
+                        <input type="text" id="cat-nom" class="input-grande" placeholder="Ej. Desarrollo, Finanzas..." style="margin-bottom: 0;" required>
+                        <input type="color" id="cat-col" value="#0d4b36" title="Color de categoría" style="width: 55px; height: 50px; border: 1px solid #ccc; border-radius: 12px; cursor: pointer; padding: 4px; background: white;">
                         <button type="submit" id="btn-guardar-cat" class="btn-guardar">Agregar</button>
                     </div>
                 </form>
-                <ul id="cat-lst" style="max-height: 220px; overflow-y:auto; list-style: none; padding: 0;"></ul>
+                <ul id="cat-lst" style="max-height: 220px; overflow-y: auto; list-style: none; padding: 0;"></ul>
                 <div class="acciones-modal">
                     <button type="button" class="btn-cancel" onclick="this.closest('dialog').close()">Cerrar</button>
                 </div>
