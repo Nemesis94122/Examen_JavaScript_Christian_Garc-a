@@ -261,7 +261,7 @@ input[type="date"]{
     cursor:pointer;
 }
 
-todo-app dialog {
+:host dialog {
     border: none;
     border-radius: 30px; 
     padding: 40px;      
@@ -276,12 +276,12 @@ todo-app dialog {
     overflow: visible;
 }
 
-todo-app dialog::backdrop {
+:host dialog::backdrop {
     background: rgba(0, 0, 0, 0.25); 
     backdrop-filter: blur(2px);
 }
 
-todo-app .completada .titulo {
+:host .completada .titulo {
     text-decoration: line-through;
     color: #777;
 }
