@@ -28,15 +28,17 @@ class TodoApp extends HTMLElement {
     }
   }
 
-  cargar(key = STORAGE_KEY) { try { return JSON.parse(localStorage.getItem(key)) || []; } catch { return []; } }
+  cargar(key = STORAGE_KEY) {
+    try { return JSON.parse(localStorage.getItem(key)) || []; } catch { return []; }
+  }
 
   guardar() {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(this.tareas)); } catch(e) { console.error(e); }
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(this.tareas)); } catch (e) { console.error(e); }
     this.render();
   }
 
   guardarCategorias() {
-    try { localStorage.setItem(CAT_STORAGE_KEY, JSON.stringify(this.categorias)); } catch(e) { console.error(e); }
+    try { localStorage.setItem(CAT_STORAGE_KEY, JSON.stringify(this.categorias)); } catch (e) { console.error(e); }
     this.syncCategorias();
     this.render();
   }
@@ -44,7 +46,9 @@ class TodoApp extends HTMLElement {
   syncCategorias() {
     const s = this.shadowRoot;
     const opts = `<option value="">Sin categoría</option>` + this.categorias.map(c => `<option value="${c.id}">${c.nombre}</option>`).join('');
-    ['cat', 'cat-imp'].forEach(id => { if (s.getElementById(id)) s.getElementById(id).innerHTML = opts; });
+    ['cat', 'cat-imp'].forEach(id => {
+      if (s.getElementById(id)) s.getElementById(id).innerHTML = opts;
+    });
 
     const ul = s.getElementById('cat-lst');
     if (ul) ul.innerHTML = this.categorias.length ? this.categorias.map(c => `
@@ -71,11 +75,16 @@ class TodoApp extends HTMLElement {
       s.getElementById('btn-guardar-cat').textContent = 'Agregar';
     };
 
-    s.getElementById('btn-cat').onclick = () => { resetCatForm(); this.syncCategorias(); s.getElementById('mdl-c').showModal(); };
+    s.getElementById('btn-cat').onclick = () => {
+      resetCatForm();
+      this.syncCategorias();
+      s.getElementById('mdl-c').showModal();
+    };
 
     s.getElementById('frm-cat').onsubmit = (e) => {
       e.preventDefault();
-      const nombre = s.getElementById('cat-nom').value.trim(), color = s.getElementById('cat-col').value;
+      const nombre = s.getElementById('cat-nom').value.trim();
+      const color = s.getElementById('cat-col').value;
       if (!nombre) return;
       this.categorias = this.editandoCatId
         ? this.categorias.map(c => c.id === this.editandoCatId ? { ...c, nombre, color } : c)
@@ -108,16 +117,38 @@ class TodoApp extends HTMLElement {
       s.getElementById('fch').value = new Date().toISOString().split('T')[0];
       s.getElementById('mdl-f').showModal();
     };
-    s.getElementById('imp').onclick = () => { this.syncCategorias(); this.cargarAPI(); };
-    s.getElementById('mar').onclick = () => { this.tareas.forEach(t => t.completado = true); this.guardar(); };
-    s.getElementById('vac').onclick = () => { if (confirm('¿Vaciar?')) { this.tareas = []; this.guardar(); } };
-    s.getElementById('flt').onchange = (e) => { this.filtro = e.target.value; this.render(); };
-    s.getElementById('bus').oninput = (e) => { this.busqueda = e.target.value.toLowerCase().trim(); this.render(); };
+    s.getElementById('imp').onclick = () => {
+      this.syncCategorias();
+      this.cargarAPI();
+    };
+    s.getElementById('mar').onclick = () => {
+      this.tareas.forEach(t => t.completado = true);
+      this.guardar();
+    };
+    s.getElementById('vac').onclick = () => {
+      if (confirm('¿Vaciar?')) {
+        this.tareas = [];
+        this.guardar();
+      }
+    };
+    s.getElementById('flt').onchange = (e) => {
+      this.filtro = e.target.value;
+      this.render();
+    };
+    s.getElementById('bus').oninput = (e) => {
+      this.busqueda = e.target.value.toLowerCase().trim();
+      this.render();
+    };
     s.getElementById('cnf').onclick = () => this.confirmarImportar();
 
     s.getElementById('frm').onsubmit = (e) => {
       e.preventDefault();
-      const datos = { titulo: s.getElementById('ttl').value, completado: s.getElementById('cmp').checked, fecha: s.getElementById('fch').value, categoriaId: s.getElementById('cat').value };
+      const datos = {
+        titulo: s.getElementById('ttl').value,
+        completado: s.getElementById('cmp').checked,
+        fecha: s.getElementById('fch').value,
+        categoriaId: s.getElementById('cat').value
+      };
       this.tareas = this.editandoId
         ? this.tareas.map(t => t.id === this.editandoId ? { ...t, ...datos } : t)
         : [...this.tareas, { id: 'm_' + Date.now(), ...datos, importada: false }];
@@ -128,7 +159,10 @@ class TodoApp extends HTMLElement {
     s.getElementById('lst').onclick = (e) => {
       const id = e.target.dataset.id;
       if (!id) return;
-      if (e.target.classList.contains('del')) { this.tareas = this.tareas.filter(t => t.id !== id); this.guardar(); }
+      if (e.target.classList.contains('del')) {
+        this.tareas = this.tareas.filter(t => t.id !== id);
+        this.guardar();
+      }
       if (e.target.classList.contains('edi')) {
         const t = this.tareas.find(x => x.id === id);
         this.editandoId = id;
@@ -165,14 +199,23 @@ class TodoApp extends HTMLElement {
             <input type="checkbox" class="api-chk" data-ttl="${t.title}" ${t.completed ? 'data-cmp="1"' : ''}> <span>${t.title}</span>
           </label>
         </li>`).join('');
-    } catch { ul.innerHTML = '<span style="color:red">Error al cargar datos de la API</span>'; }
+    } catch {
+      ul.innerHTML = '<span style="color:red">Error al cargar datos de la API</span>';
+    }
   }
 
   confirmarImportar() {
     const fecha = new Date().toISOString().split('T')[0];
     const categoriaId = this.shadowRoot.getElementById('cat-imp').value;
     this.shadowRoot.querySelectorAll('.api-chk:checked').forEach(c => {
-      this.tareas.push({ id: 'a_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5), titulo: c.dataset.ttl, completado: !!c.dataset.cmp, fecha, categoriaId, importada: true });
+      this.tareas.push({
+        id: 'a_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+        titulo: c.dataset.ttl,
+        completado: !!c.dataset.cmp,
+        fecha,
+        categoriaId,
+        importada: true
+      });
     });
     this.shadowRoot.getElementById('mdl-i').close();
     this.guardar();
@@ -207,7 +250,3 @@ class TodoApp extends HTMLElement {
       if (clon.querySelector('.del')) clon.querySelector('.del').dataset.id = t.id;
       if (tituloDiv) tituloDiv.textContent = t.titulo;
       if (clon.querySelector('.fecha-txt') && t.fecha) clon.querySelector('.fecha-txt').textContent = t.fecha.split('-').reverse().join('/');
-      if (clon.querySelector('.categoria small')) clon.querySelector('.categoria small').textContent = t.importada ? 'Importada (API)' : 'Creada Local';
-
-      if (t.completado) {
-        clon.querySelector('li')?.classList.add('completada');
