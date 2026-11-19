@@ -1,4 +1,4 @@
-const API_URL = 'https://typicode.com';
+const API_URL = 'https://jsonplaceholder.typicode.com/todos';
 const KEYS = { tareas: 'app_tareas_data', cats: 'app_categorias_data' };
 
 class TodoApp extends HTMLElement {
