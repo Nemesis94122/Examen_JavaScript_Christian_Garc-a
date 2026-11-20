@@ -113,10 +113,10 @@ class TodoApp extends HTMLElement {
       const datos = await ApiService.obtenerTareas();
       ul.innerHTML = datos.map(t => `
         <li style="padding:10px;border-bottom:1px solid #ececec;list-style:none;">
-          <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+          <div style="display:flex;align-items:center;gap:10px;cursor:pointer;">
             <input type="checkbox" class="api-chk" data-ttl="${t.title}" ${t.completed ? 'data-cmp="1"' : ''}>
             <span>${t.title}</span>
-          </label>
+          </div>
         </li>`).join('');
     } catch {
       ul.innerHTML = '<li style="padding:10px;color:red;list-style:none;">Error al cargar datos de la API</li>';
@@ -130,7 +130,7 @@ class TodoApp extends HTMLElement {
       this.tareas.push({
         id: 'a_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7),
         titulo: c.dataset.ttl,
-        completado: !!c.dataset.cmp,
+        completado: false,
         fecha,
         categoriaId,
         importada: true
